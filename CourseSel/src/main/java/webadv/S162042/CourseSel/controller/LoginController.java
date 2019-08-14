@@ -4,103 +4,166 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import webadv.S162042.CourseSel.entity.Eadmin;
-import webadv.S162042.CourseSel.entity.Jadmin;
-import webadv.S162042.CourseSel.entity.Student;
-import webadv.S162042.CourseSel.entity.Teacher;
+import org.springframework.web.bind.annotation.PostMapping;
+import webadv.S162042.CourseSel.entity.*;
 import webadv.S162042.CourseSel.repository.EadminRepository;
 import webadv.S162042.CourseSel.repository.JadminRepository;
 import webadv.S162042.CourseSel.repository.StudentRepository;
 import webadv.S162042.CourseSel.repository.TeacherRepository;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 @Controller
 public class LoginController {
-	@Autowired
-	private TeacherRepository tr;
-	private Teacher teacher;
-	@Autowired
-	private StudentRepository sr;
-	private Student student;
-	@Autowired
-	private EadminRepository er;
-	private Eadmin eadmin;
-	@Autowired
-	private JadminRepository jr;
-	private Jadmin jadmin;
+    @Autowired
+    private TeacherRepository tr;
+    @Autowired
+    private StudentRepository sr;
+    @Autowired
+    private EadminRepository er;
+    @Autowired
+    private JadminRepository jr;
 
-	@GetMapping("/")
-	public String login(Model model) {
-		return "login";
-	}
+    @GetMapping("/")
+    public String login(Model model) {
+        return "login";
+    }
 
-	@SuppressWarnings("unused")
-	@GetMapping("/index.html")
-	public String index(Model model, String no, String password, String optionsRadiosinline) {
-		if (student != null) {
-			model.addAttribute("student", student);
-			return "s_main";
-		}
-		if (teacher != null) {
-			model.addAttribute("teacher", teacher);
-			return "tea_main";
-		}
+    @PostMapping("/index.html")
+    public String index(Model model, HttpSession session, String no, String password, String optionsRadiosinline) {
+        if (optionsRadiosinline.equals("student")) {
+            Student s = sr.validStudent(no, password);
+            if (s != null) {
+                session.setAttribute("student", s);
 
-		if (eadmin != null) {
-			model.addAttribute("eadmin", eadmin);
-			return "ead_main";
-		}
-		if (jadmin != null) {
-			model.addAttribute("jadmin", jadmin);
-			return "jad_main";
-		}
+                List<String> l=sr.findcouview(s.getSno());
+                ArrayList<can_course> lc = new ArrayList<>();
 
-		if (optionsRadiosinline.equals("option1")) {
-			// Ñ§ÉúµÇÂ¼
-			Student s = sr.validStudent(no, password);
-			System.out.println("****" + s.getName());
-			if (s == null) {
-				System.out.println("ÕËºÅÃÜÂë´íÎó");
-				return "login";
-			} else {
-				model.addAttribute("student", s);
-				student = s;
-				return "s_main";
-			}
-		} else if (optionsRadiosinline.equals("option2")) {
-			// ½ÌÊ¦µÇÂ¼
-			Teacher t = tr.validTeacher(no, password);
-			if (t == null) {
-				System.out.println("ÕËºÅÃÜÂë´íÎó");
-				return "login";
-			} else {
-				model.addAttribute("teacher", t);
-				teacher = t;
-				return "tea_main";
-			}
-		} else if (optionsRadiosinline.equals("option3")) {
-			// ½ÌÎñµÇÂ¼
-			Eadmin e = er.validEadmin(no, password);
-			if (e == null) {
-				System.out.println("ÕËºÅÃÜÂë´íÎó");
-				return "login";
-			} else {
-				model.addAttribute("eadmin", e);
-				eadmin = e;
-				return "ead_main";
-			}
-		} else { // »ú·¿¹ÜÀíÔ±µÇÂ½
-			Jadmin j = jr.validJadmin(no, password);
-			if (j == null) {
-				System.out.println("ÕËºÅÃÜÂë´íÎó");
-				return "login";
-			} else {
-				model.addAttribute("jadmin", j);
-				jadmin = j;
+                for(int i=0;i<l.size();i++) {
+                    String grade = "";
+
+                    //alter table alr_course alter column alr_grad set default -1;
+                    if(sr.findgrade(l.get(i), s.getSno())!=-1) {
+                        grade = ""+sr.findgrade(l.get(i), s.getSno());
+                        can_course c = sr.findcan_course(l.get(i));
+                        c.setGrade(grade);
+                        lc.add(c);
+                    }
+                }
+                model.addAttribute("lc",lc);
+
+                return "s_main";
+            } else {
+                System.out.println("wrong password!!!");
+                return "login";
+            }
+        }
+        if (optionsRadiosinline.equals("teacher")) {
+            Teacher t = tr.validTeacher(no, password);
+            if (t != null) {
+                session.setAttribute("teacher", t);
+                List<Tea_audited> audited = tr.findWaitAudited(t.getT_no());
+                List<Tea_audited> passed = tr.findPassAudited(t.getT_no());
+                List<Tea_can_course> cancourse = tr.findMyCourse_week(t.getT_name(), getWeek());
+                model.addAttribute("audited", audited);
+                model.addAttribute("passed", passed);
+                Calendar cal = Calendar.getInstance();
+                int week = cal.get(Calendar.DAY_OF_WEEK) - 1;
+                List<String> place = new ArrayList<>();
+                for (int i = 0; i < cancourse.size(); i++) {
+                    String[] strs = cancourse.get(i).getCc_place().split("\\|");
+                    for (int j = 0; j < strs.length; j++) {
+                        if (strs[j].contains(getWeek())) {
+                            String build = strs[j].substring(0, strs[j].indexOf("æ˜Ÿ"));
+                            place.add(build);
+                            cancourse.get(i).setCc_place(build);
+                        }
+                    }
+                }
+                model.addAttribute("cancourse", cancourse);
+                model.addAttribute("week", week);
+                model.addAttribute("weeke", getWeeke(week));
+                return "tea_main";
+            } else {
+                System.out.println("wrong password!!!");
+                return "login";
+            }
+        }
+        if (optionsRadiosinline.equals("eadmin")) {
+            Eadmin e = er.validEadmin(no, password);
+            if (e != null) {
+                session.setAttribute("eadmin", e);
+                return "ead_main";
+            } else {
+                System.out.println("wrong password!!!");
+                return "login";
+            }
+        }
+        if (optionsRadiosinline.equals("jadmin")) {
+        	Jadmin j = jr.validJadmin(no, password);
+			if (j != null) {
+				session.setAttribute("jadmin", j);
+				List<Computer_room> room = jr.findRoom();
+				List<String> type = jr.findRoomType();
+				List<Audited> au = jr.findAudited();
+				model.addAttribute("Audited", au);
+				model.addAttribute("num", jr.AuditedNum());
+				model.addAttribute("Jadmin_computer_room", room);
+				model.addAttribute("type", type);	
 				return "jad_main";
-			}
-		}
+			} else {
+                System.out.println("wrong password!!!");
+                return "login";
+            }
+        }
+        return "login";
 
-	}
+    }
+
+    //è·å–æ˜ŸæœŸå‡ 
+    public static String getWeek() {
+        Calendar cal = Calendar.getInstance();
+        int i = cal.get(Calendar.DAY_OF_WEEK);
+        switch (i) {
+            case 1:
+                return "æ˜ŸæœŸæ—¥";
+            case 2:
+                return "æ˜ŸæœŸä¸€";
+            case 3:
+                return "æ˜ŸæœŸäºŒ";
+            case 4:
+                return "æ˜ŸæœŸä¸‰";
+            case 5:
+                return "æ˜ŸæœŸå››";
+            case 6:
+                return "æ˜ŸæœŸäº”";
+            case 7:
+                return "æ˜ŸæœŸå…­";
+            default:
+                return "";
+        }
+    }
+
+    //è·å–æ˜ŸæœŸ
+    public static String getWeeke(int i) {
+        switch (i) {
+            case 1:
+                return "Mon";
+            case 2:
+                return "Tues";
+            case 3:
+                return "Wed";
+            case 4:
+                return "Thur";
+            case 5:
+                return "Fri";
+            default:
+                return "";
+        }
+
+    }
 
 }

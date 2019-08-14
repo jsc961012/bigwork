@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>修改机房信息</title>
+
+
+
+<!-- Bootstrap -->
+<link href="vendors/bootstrap/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Font Awesome -->
+<link href="vendors/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet">
+<!-- NProgress -->
+<link href="vendors/nprogress/nprogress.css" rel="stylesheet">
+<!-- iCheck -->
+<link href="vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+<!-- Custom Theme Style -->
+<link href="css/custom.min.css" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<div class="col-md-3 left_col">
+				<div class="left_col scroll-view">
+					<div class="navbar nav_title" style="border: 0;">
+						<a href="index.html" class="site_title"><i class="fa fa-paw"></i>
+							<span>机房管理</span></a>
+					</div>
+
+					<div class="clearfix"></div>
+
+					<!-- menu profile quick info -->
+					<div class="profile clearfix">
+						<div class="profile_pic">
+							<img src="images/img.jpg" alt="..."
+								class="img-circle profile_img">
+						</div>
+						<div class="profile_info">
+							<span>Welcome,</span>
+							<h2 th:text="${session.jadmin.getName()}"></h2>
+						</div>
+					</div>
+					<!-- /menu profile quick info -->
+
+					<br />
+
+					<!-- sidebar menu -->
+					<div id="sidebar-menu"
+						class="main_menu_side hidden-print main_menu">
+						<div class="menu_section">
+							<h3>menu</h3>
+							<ul class="nav side-menu">
+								<li><a href="/jad_main"><i class="fa fa-home"></i> 个人主页</a></li>
+								<li><a><i class="fa fa-edit"></i> 机房管理 <span
+										class="fa fa-chevron-down"></span></a>
+									<ul class="nav child_menu">
+										<li><a href="jad_addjf">添加机房</a></li>
+										<li><a href="jad_deletejf">删除机房</a></li>
+										<li><a href="jad_modjf">修改机房信息</a></li>
+										<li><a href="jad_searjf">查看机房信息</a></li>
+									</ul></li>
+								<li><a href="jad_expmanage"><i class="fa fa-desktop"></i>
+										实验安排 </a></li>
+						</div>
+					</div>
+					<!-- /sidebar menu -->
+
+					<!-- /menu footer buttons -->
+					<div class="sidebar-footer hidden-small">
+						<a data-toggle="tooltip" data-placement="top" title="Settings">
+							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+						</a> <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+							<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+						</a> <a data-toggle="tooltip" data-placement="top" title="Lock"> <span
+							class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+						</a> <a data-toggle="tooltip" data-placement="top" title="Logout"
+							href="/"> <span class="glyphicon glyphicon-off"
+							aria-hidden="true"></span>
+						</a>
+					</div>
+					<!-- /menu footer buttons -->
+				</div>
+			</div>
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<div class="page-title">
+						<div class="title_left">
+							<h3>机房信息表</h3>
+						</div>
+						<!-- <div class="title_right">
+							<div
+								class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+								<div class="input-group">
+									<input type="text" class="form-control"
+										placeholder="Search for..."> <span
+										class="input-group-btn">
+										<button class="btn btn-default" type="button">Go!</button>
+									</span>
+								</div>
+							</div>
+						</div> -->
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12"
+							th:each="type,status : ${type}">
+							<div class="x_panel">
+								<form action="/update">
+									<div class="x_title">
+										<h2 th:text="${type}">
+											<small>机房具体信息</small>
+										</h2>
+										<ul class="nav navbar-right panel_toolbox">
+											<li><a class="collapse-link"><i
+													class="fa fa-chevron-up"></i></a></li>
+											<li class="dropdown"><a href="#" class="dropdown-toggle"
+												data-toggle="dropdown" role="button" aria-expanded="false"><i
+													class="fa fa-wrench"></i></a>
+												<ul class="dropdown-menu" role="menu">
+													<li th:if="${com_place}==${type}"><input id="btn"
+														type="submit" class="btn-link" value="完成编辑" /></li>
+													<li th:if="${com_place}!=${type}"><a
+														th:href="@{'/jad_modjf_edit'+${type}}">编辑</a></li>
+												</ul></li>
+											<li><a class="close-link"><i class="fa fa-close"></i></a></li>
+										</ul>
+										<div class="clearfix"></div>
+									</div>
+									<div class="x_content"
+										th:each="room,status : ${Jadmin_computer_room}"
+										th:if="${room.com_place}==${type}">
+
+										<table class="table" th:if="${com_place}==${type}">
+											<tr>
+												<td>
+												<th>机房地点</th>
+												</td>
+												<td><input th:value="${room.com_place}"
+													name="com_place" style="height: 17px"></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>
+												<th>机房人数上限</th>
+												</td>
+												<td><input th:value="${room.com_num}" name="com_num"
+													style="height: 17px"></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>
+												<th>机房负责人</th>
+												</td>
+												<td><input th:value="${room.com_charge}"
+													name="com_charge" style="height: 17px"></td>
+												<td></td>
+											</tr>
+
+										</table>
+										<table class="table" th:if="${com_place}!=${type}">
+											<tr>
+												<td>
+												<th>机房地点</th>
+												</td>
+												<td th:text="${room.com_place}"></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>
+												<th>机房人数上限</th>
+												</td>
+												<td th:text="${room.com_num}"></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>
+												<th>机房负责人</th>
+												</td>
+												<td th:text="${room.com_charge}"></td>
+												<td></td>
+											</tr>
+										</table>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /page content -->
+			<!-- footer content -->
+			<footer>
+				<div class="pull-right">
+					Gentelella - Bootstrap Admin Template by <a
+						href="https://colorlib.com">Colorlib</a>
+				</div>
+				<div class="clearfix"></div>
+			</footer>
+			<!-- /footer content -->
+
+
+		</div>
+	</div>
+
+	<!-- jQuery -->
+	<script src="vendors/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- FastClick -->
+	<script src="vendors/fastclick/lib/fastclick.js"></script>
+	<!-- NProgress -->
+	<script src="vendors/nprogress/nprogress.js"></script>
+	<!-- iCheck -->
+	<script src="vendors/iCheck/icheck.min.js"></script>
+
+	<!-- Custom Theme Scripts -->
+	<script src="js/custom.min.js"></script>
+</body>
+</html>

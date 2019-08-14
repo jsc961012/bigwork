@@ -29,7 +29,7 @@
 			<div class="col-md-3 left_col">
 				<div class="left_col scroll-view">
 					<div class="navbar nav_title" style="border: 0;">
-						<a href="index.html" class="site_title"><i class="fa fa-paw"></i>
+						<a href="tea_main" class="site_title"><i class="fa fa-paw"></i>
 							<span>教师系统</span></a>
 					</div>
 
@@ -38,12 +38,12 @@
 					<!-- menu profile quick info -->
 					<div class="profile clearfix">
 						<div class="profile_pic">
-							<img src="images/hg.jpg" alt="..." class="img-circle profile_img">
+							<img src="images/img.jpg" alt="..." class="img-circle profile_img">
 						</div>
 						<div class="profile_info">
 							<span>Welcome,</span>
 							<h2>
-								<span th:text="${teacher.getName()}"></span>
+								<span th:text="${session.teacher.getT_name()}"></span>
 							</h2>
 						</div>
 					</div>
@@ -57,7 +57,7 @@
 						<div class="menu_section">
 							<h3>menu</h3>
 							<ul class="nav side-menu">
-								<li><a href="index.html"><i class="fa fa-home"></i> 个人主页
+								<li><a href="tea_main"><i class="fa fa-home"></i> 个人主页
 								</a></li>
 								<li><a href="tea_teach"><i class="fa fa-edit"></i> 授课课程
 								</a></li>
@@ -65,13 +65,13 @@
 										class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
 										<li><a href="tea_applycou">申请开课</a></li>
-										<li><a href="tea_applyexp">申请实验</a></li>
+										<!-- <li><a href="tea_applyexp">申请实验</a></li> -->
 										<li><a href="tea_applymod">申请调课</a></li>
 									</ul></li>
 								<li><a href="tea_addgrades"><i class="fa fa-table"></i>
 										成绩录入 </a></li>
-								<li><a href="tea_stulist"><i class="fa fa-bar-chart-o"></i>
-										学生名单 </a></li>
+								<!-- <li><a href="tea_stulist"><i class="fa fa-bar-chart-o"></i>
+										学生名单 </a></li> -->
 							</ul>
 						</div>
 					</div>
@@ -105,58 +105,12 @@
 						<ul class="nav navbar-nav navbar-right">
 							<li class=""><a href="javascript:;"
 								class="user-profile dropdown-toggle" data-toggle="dropdown"
-								aria-expanded="false"> <img src="images/hg.jpg" alt=""><span
-									th:text="${teacher.getName()}"></span><span
-									class=" fa fa-angle-down"></span>
-							</a>
+								aria-expanded="false"> <img src="images/img.jpg" alt=""><span
+									th:text="${session.teacher.getT_name()}"></span><span
+									class=" fa fa-angle-down"></span></a>
 								<ul class="dropdown-menu dropdown-usermenu pull-right">
-									<li><a href="javascript:;"> Profile</a></li>
-									<li><a href="javascript:;"> <span
-											class="badge bg-red pull-right">50%</span> <span>Settings</span>
-									</a></li>
-									<li><a href="javascript:;">Help</a></li>
-									<li><a href="login.html"><i
-											class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-								</ul></li>
-
-							<li role="presentation" class="dropdown"><a
-								href="javascript:;" class="dropdown-toggle info-number"
-								data-toggle="dropdown" aria-expanded="false"> <i
-									class="fa fa-envelope-o"></i> <span class="badge bg-green">6</span>
-							</a>
-								<ul id="menu1" class="dropdown-menu list-unstyled msg_list"
-									role="menu">
-									<li><a> <span class="image"><img
-												src="images/img.jpg" alt="Profile Image" /></span> <span> <span>John
-													Smith</span> <span class="time">3 mins ago</span>
-										</span> <span class="message"> Film festivals used to be
-												do-or-die moments for movie makers. They were where... </span>
-									</a></li>
-									<li><a> <span class="image"><img
-												src="images/img.jpg" alt="Profile Image" /></span> <span> <span>John
-													Smith</span> <span class="time">3 mins ago</span>
-										</span> <span class="message"> Film festivals used to be
-												do-or-die moments for movie makers. They were where... </span>
-									</a></li>
-									<li><a> <span class="image"><img
-												src="images/img.jpg" alt="Profile Image" /></span> <span> <span>John
-													Smith</span> <span class="time">3 mins ago</span>
-										</span> <span class="message"> Film festivals used to be
-												do-or-die moments for movie makers. They were where... </span>
-									</a></li>
-									<li><a> <span class="image"><img
-												src="images/img.jpg" alt="Profile Image" /></span> <span> <span>John
-													Smith</span> <span class="time">3 mins ago</span>
-										</span> <span class="message"> Film festivals used to be
-												do-or-die moments for movie makers. They were where... </span>
-									</a></li>
-									<li>
-										<div class="text-center">
-											<a> <strong>See All Alerts</strong> <i
-												class="fa fa-angle-right"></i>
-											</a>
-										</div>
-									</li>
+									<li><a href="/"><i class="fa fa-sign-out pull-right"></i>
+											Log Out</a></li>
 								</ul></li>
 						</ul>
 					</nav>
@@ -192,7 +146,7 @@
 						<div class="col-md-12">
 							<div class="x_panel">
 								<div class="x_title">
-									<h2>可开实验的课程 </h2>
+									<h2>可开实验的课程</h2>
 									<ul class="nav navbar-right panel_toolbox">
 										<li><a class="collapse-link"><i
 												class="fa fa-chevron-up"></i></a></li>
@@ -219,14 +173,14 @@
 													<div class="mask">
 														<p>程序设计基础</p>
 														<div class="tools tools-bottom">
-															<a href="#"><i class="fa fa-link"></i></a> <a href="#"><i
-																class="fa fa-pencil"></i></a> <a href="#"><i
-																class="fa fa-times"></i></a>
+															<a href="#">申请实验</a>
 														</div>
 													</div>
 												</div>
 												<div class="caption">
-													<p><strong>程序设计基础</strong></p>
+													<p>
+														<strong>程序设计基础</strong>
+													</p>
 													<p>162041、162042</p>
 												</div>
 											</div>
@@ -239,14 +193,14 @@
 													<div class="mask">
 														<p>程序设计基础</p>
 														<div class="tools tools-bottom">
-															<a href="#"><i class="fa fa-link"></i></a> <a href="#"><i
-																class="fa fa-pencil"></i></a> <a href="#"><i
-																class="fa fa-times"></i></a>
+															<a href="#">申请实验</a>
 														</div>
 													</div>
 												</div>
 												<div class="caption">
-													<p><strong>程序设计基础</strong></p>
+													<p>
+														<strong>程序设计基础</strong>
+													</p>
 													<p>162041、162042</p>
 												</div>
 											</div>
@@ -259,14 +213,14 @@
 													<div class="mask">
 														<p>程序设计基础</p>
 														<div class="tools tools-bottom">
-															<a href="#"><i class="fa fa-link"></i></a> <a href="#"><i
-																class="fa fa-pencil"></i></a> <a href="#"><i
-																class="fa fa-times"></i></a>
+															<a href="#">申请实验</a>
 														</div>
 													</div>
 												</div>
 												<div class="caption">
-													<p><strong>程序设计基础</strong></p>
+													<p>
+														<strong>程序设计基础</strong>
+													</p>
 													<p>162041、162042</p>
 												</div>
 											</div>
@@ -279,14 +233,14 @@
 													<div class="mask">
 														<p>程序设计基础</p>
 														<div class="tools tools-bottom">
-															<a href="#"><i class="fa fa-link"></i></a> <a href="#"><i
-																class="fa fa-pencil"></i></a> <a href="#"><i
-																class="fa fa-times"></i></a>
+															<a href="#">申请实验</a>
 														</div>
 													</div>
 												</div>
 												<div class="caption">
-													<p><strong>程序设计基础</strong></p>
+													<p>
+														<strong>程序设计基础</strong>
+													</p>
 													<p>162041、162042</p>
 												</div>
 											</div>
@@ -299,14 +253,14 @@
 													<div class="mask">
 														<p>程序设计基础</p>
 														<div class="tools tools-bottom">
-															<a href="#"><i class="fa fa-link"></i></a> <a href="#"><i
-																class="fa fa-pencil"></i></a> <a href="#"><i
-																class="fa fa-times"></i></a>
+															<a href="#">申请实验</a>
 														</div>
 													</div>
 												</div>
 												<div class="caption">
-													<p><strong>程序设计基础</strong></p>
+													<p>
+														<strong>程序设计基础</strong>
+													</p>
 													<p>162041、162042</p>
 												</div>
 											</div>

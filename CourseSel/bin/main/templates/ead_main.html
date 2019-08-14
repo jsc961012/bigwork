@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <!-- Meta, title, CSS, favicons, etc. -->
@@ -48,7 +48,7 @@
           </div>
           <div class="profile_info">
             <span>欢迎，你</span>
-            <h2 th:text="${eadmin.getE_name()}"></h2>
+            <h2 th:text="${session.eadmin.getE_name()}"></h2>
           </div>
         </div>
         <!-- /menu profile quick info -->
@@ -60,7 +60,7 @@
           <div class="menu_section">
             <h3>操作</h3>
             <ul class="nav side-menu">
-              <li><a href="/index.html"><i class="fa fa-home"></i> 主界面 <span class="fa "></span></a>
+              <li><a href="/ead_main"><i class="fa fa-home"></i> 主界面 <span class="fa "></span></a>
               </li>
               <li><a><i class="fa fa-edit" ></i> 开课信息审核 <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
@@ -93,16 +93,18 @@
     <div class="top_nav">
       <div class="nav_menu">
         <nav>
+        <div class="nav toggle">
+							<a id="menu_toggle"><i class="fa fa-bars"></i></a>
+		</div>
+
           <ul class="nav navbar-nav navbar-right">
             <li class="">
               <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <img src="images/img.jpg" alt=""><h2 th:text="${eadmin.getE_name()}"></h2>
+                <img src="images/img.jpg" alt=""><h2 th:text="${session.eadmin.getE_name()}"></h2>
                 <span class=" fa fa-angle-down"></span>
               </a>
               <ul class="dropdown-menu dropdown-usermenu pull-right">
-                <li><a href="javascript:;"> 个人信息设置</a></li>
-
-                <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
+                <li><a href="/"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
               </ul>
             </li>
 
@@ -140,7 +142,7 @@
                 <tbody>
                 <tr>
                   <td>姓名：</td>
-                  <td>帅王王</td>
+                  <td th:text="${session.eadmin.getE_name()}"></td>
                 </tr>
                 <tr>
                   <td>学院：</td>
@@ -148,7 +150,7 @@
                 </tr>
                 <tr>
                   <td>性别：</td>
-                  <td>男</td>
+                  <td th:text="${session.eadmin.getE_sex()}"></td>
                 </tr>
                 <tr>
                   <td>联系电话：</td>
@@ -164,70 +166,6 @@
                 </tr>
                 </tbody>
               </table>
-            </div>
-
-            <div class="col-xs-12 invoice-header">
-              <h1>
-                <i class="fa fa-globe"></i> 操作日志
-              </h1>
-            </div>
-            <div class="row">
-              <div class="col-xs-12 table">
-                <table class="table table-striped">
-                  <thead>
-                  <tr>
-                    <th>序号</th>
-                    <th style="width: 59%">操作</th>
-                    <th>时间</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>对于教授申请在2019/8/1日的调课予以同意
-                    </td>
-                    <td>2019/7/25/08/26</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>对于教授申请在2019/8/1日的调课予以同意
-                    </td>
-                    <td>2019/7/25/08/26</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>对于教授申请在2019/8/1日的调课予以同意
-                    </td>
-                    <td>2019/7/25/08/26</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>对于教授申请在2019/8/1日的调课予以同意
-                    </td>
-                    <td>2019/7/25/08/26</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>对于教授申请在2019/8/1日的调课予以同意
-                    </td>
-                    <td>2019/7/25/08/26</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>对于教授申请在2019/8/1日的调课予以同意
-                    </td>
-                    <td>2019/7/25/08/26</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>对于教授申请在2019/8/1日的调课予以同意
-                    </td>
-                    <td>2019/7/25/08/26</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.col -->
             </div>
 
 
